@@ -1,27 +1,38 @@
 import numpy as np
 
-X = np.array([1,2,3,4,5], dtype=float)
-y = np.array([3,5,7,9,11], dtype=float)
+# size of house
+X = np.array([500, 800, 1000, 1200, 1500], dtype=float)
 
-w = 0
-b = 0
-lr = 0.01
-epochs = 1000
+# price
+y = np.array([150000, 220000, 300000, 340000, 400000], dtype=float)
+
+w = 0.0
+b = 0.0
+lr = 0.0000001
+epochs = 2000
+
+n = len(X)
 
 for epoch in range(epochs):
 
     # prediction
-    y_pred = None
+    y_pred = w * X + b
 
-    # loss (MSE)
-    loss = None
+    # loss
+    loss = np.mean((y_pred - y) ** 2)
 
     # gradients
-    dw = None
-    db = None
+    dw = (2/n) * np.sum((y_pred - y) * X)
+    db = (2/n) * np.sum(y_pred - y)
 
     # update
-    w = None
-    b = None
+    w -= lr * dw
+    b -= lr * db
 
-print(w, b)
+print("Weight:", w)
+print("Bias:", b)
+
+test_size = 1100
+prediction = w * test_size + b
+
+print("Predicted price:", prediction)
