@@ -1,30 +1,38 @@
 import numpy as np
 
-X = np.array([0.2,0.4,0.6,0.8])
-y = np.array([0,0,1,1])
+# feature: number of spam words
+X = np.array([1,2,3,4,5,6], dtype=float)
 
-w = 0
-b = 0
-lr = 0.1
-epochs = 1000
+# labels
+y = np.array([0,0,0,1,1,1], dtype=float)
+
+w = 0.0
+b = 0.0
+lr = 0.01
+epochs = 3000
 
 def sigmoid(z):
-    return None
+    return 1 / (1 + np.exp(-z))
+
+n = len(X)
 
 for epoch in range(epochs):
 
-    z = None
-    y_pred = None
+    z = w * X + b
+    y_pred = sigmoid(z)
 
-    loss = None
+    loss = -np.mean(y*np.log(y_pred+1e-9) + (1-y)*np.log(1-y_pred+1e-9))
 
-    dw = None
-    db = None
+    dw = (1/n) * np.sum((y_pred - y) * X)
+    db = (1/n) * np.sum(y_pred - y)
 
-    w = None
-    b = None
+    w -= lr * dw
+    b -= lr * db
 
-def predict(x):
-    z = None
-    prob = None
-    return None
+print("Weight:", w)
+print("Bias:", b)
+
+test_email = 4
+prob = sigmoid(w * test_email + b)
+
+print("Spam probability:", prob)
